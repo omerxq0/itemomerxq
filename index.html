@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Advanced Gmail Alias Generator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+  --bg:#0f172a; --card:#020617; --text:#e5e7eb;
+  --accent:#22c55e; --muted:#94a3b8;
+}
+body{margin:0;font-family:system-ui;background:var(--bg);color:var(--text)}
+.wrap{max-width:1100px;margin:auto;padding:20px}
+.card{background:var(--card);border-radius:14px;padding:20px;box-shadow:0 10px 40px #0007}
+h1{margin:0 0 10px}
+input,textarea,button{width:100%;padding:10px;border-radius:10px;border:1px solid #1f2937;background:#020617;color:#e5e7eb}
+button{cursor:pointer;background:var(--accent);border:none;color:#022c22;font-weight:700}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0}
+.stat{background:#020617;border:1px solid #1f2937;border-radius:10px;padding:10px}
+pre{height:320px;overflow:auto;background:#020617;border:1px solid #1f2937;border-radius:10px;padding:10px}
+.top{display:flex;justify-content:space-between;align-items:center}
+.small{color:var(--muted);font-size:13px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.search{margin:10px 0}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="card">
+    <div class="top">
+      <h1>Gmail Alias Generator</h1>
+      <span class="small">Limit: 2000</span>
+    </div>
+
+    <div class="grid">
+      <input id="gmail" placeholder="Gmail adresi (örn: hamimandiraliw@gmail.com)">
+      <textarea id="tags" placeholder="+etiketler (alt alta)&#10;shop&#10;forum"></textarea>
+    </div>
+
+    <div class="actions" style="margin:10px 0">
+      <button onclick="uret()">Üret</button>
+      <button onclick="kopyala()">Kopyala</button>
+      <button onclick="indir('txt')">TXT</button>
+      <button onclick="indir('csv')">CSV</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat">Toplam: <b id="count">0</b></div>
+      <div class="stat">Nokta varyasyonu</div>
+      <div class="stat">+ Etiket destekli</div>
+    </div>
+
+    <input class="search" id="search" placeholder="Filtrele (ör: +shop)" oninput="filtrele()">
+
+    <pre id="out"></pre>
+  </div>
+</div>
+
+<script>
+const LIMIT=2000;
+let all=[];
+
+function varyasyon(u){
+  let r=[],n=u.length;
+  for(let m=0;m<(1<<(n-1));m++){
+    let s=u[0];
+    for(let i=1;i<n;i++){
+      if(m&(1<<(i-1))) s+='.';
+      s+=u[i];
+    }
+    r.push(s);
+    if(r.length>=LIMIT) break;
+  }
+  return r;
+}
+
+function uret(){
+  all=[];
+  let g=document.getElementById('gmail').value.trim();
+  if(!g.endsWith('@gmail.com')) return alert('Geçerli Gmail gir');
+  let u=g.split('@')[0].replace(/\./g,'');
+  let tags=document.getElementById('tags').value.split('\n').filter(x=>x);
+  let v=varyasyon(u);
+
+  for(let x of v){
+    if(all.length>=LIMIT) break;
+    all.push(x+'@gmail.com');
+    for(let t of tags){
+      if(all.length>=LIMIT) break;
+      all.push(x+'+'+t+'@gmail.com');
+    }
+  }
+  guncelle(all);
+}
+
+function guncelle(list){
+  document.getElementById('out').textContent=list.join('\n');
+  document.getElementById('count').textContent=list.length;
+}
+
+function filtrele(){
+  let q=document.getElementById('search').value;
+  guncelle(all.filter(x=>x.includes(q)));
+}
+
+function kopyala(){
+  navigator.clipboard.writeText(all.join('\n'));
+  alert('Kopyalandı');
+}
+
+function indir(t){
+  let data= t==='csv' ? all.join(',\n') : all.join('\n');
+  let b=new Blob([data],{type:'text/plain'});
+  let a=document.createElement('a');
+  a.href=URL.createObjectURL(b);
+  a.download='gmail-alias.'+t;
+  a.click();
+}
+</script>
+
+</body>
+</html>
