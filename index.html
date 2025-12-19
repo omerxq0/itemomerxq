@@ -1,14 +1,129 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Premium Panel</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg1:#0f2027;
-      --bg2:#203a43;
-      --bg3:#2c5364;
-      --grad: linear-gradient(135deg,#7f5cff,#00e5ff);
-      --glass: rgba(255,255,255,.
+<meta charset="UTF-8">
+<title>Premium Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Arial,Helvetica,sans-serif;
+  background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.wrapper{
+  width:100%;
+  max-width:1100px;
+  display:grid;
+  grid-template-columns:260px 1fr;
+  gap:20px;
+}
+.card{
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.25);
+  border-radius:16px;
+  padding:18px;
+}
+.sidebar h2{
+  margin:0 0 20px;
+}
+.sidebar a{
+  display:block;
+  padding:12px;
+  margin-bottom:10px;
+  border-radius:12px;
+  text-decoration:none;
+  color:#fff;
+  background:rgba(255,255,255,0.08);
+  transition:0.2s;
+}
+.sidebar a:hover{
+  background:linear-gradient(135deg,#7f5cff,#00e5ff);
+  color:#001018;
+}
+.main h1{
+  margin-top:0;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin:20px 0;
+}
+.stat{
+  background:rgba(0,0,0,0.25);
+  padding:16px;
+  border-radius:14px;
+}
+.stat b{
+  font-size:24px;
+}
+.buttons{
+  margin:20px 0;
+}
+button{
+  padding:14px 20px;
+  border-radius:14px;
+  border:none;
+  font-weight:bold;
+  cursor:pointer;
+  background:linear-gradient(135deg,#7f5cff,#00e5ff);
+  color:#001018;
+  margin-right:10px;
+}
+button.secondary{
+  background:rgba(255,255,255,0.15);
+  color:#fff;
+}
+input{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.3);
+  background:rgba(0,0,0,0.3);
+  color:#fff;
+}
+@media(max-width:900px){
+  .wrapper{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="card sidebar">
+      <h2>Premium</h2>
+      <a href="#">Dashboard</a>
+      <a href="#">Mail</a>
+      <a href="#">Features</a>
+      <a href="#">Settings</a>
+    </div>
+
+    <div class="card main">
+      <h1>Hoş geldin 👋</h1>
+      <p>Premium kontrol paneli aktif.</p>
+
+      <div class="stats">
+        <div class="stat">Durum<br><b>Aktif</b></div>
+        <div class="stat">Plan<br><b>Premium</b></div>
+        <div class="stat">Kullanım<br><b>%72</b></div>
+      </div>
+
+      <div class="buttons">
+        <button>Başlat</button>
+        <button class="secondary">Ayarlar</button>
+      </div>
+
+      <h3>Mail / Kod Alanı</h3>
+      <input placeholder="mail@example.com">
+    </div>
+  </div>
+</body>
+</html>
