@@ -2,55 +2,86 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Test Panel</title>
+<title>Premium Panel</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+:root{
+  --bg:#0b1220; --card:#111a2e; --line:#1f2a44;
+  --grad: linear-gradient(135deg,#7c7cff,#22d3ee);
+}
+*{box-sizing:border-box}
 body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#111827;
-  color:white;
+  margin:0; background:var(--bg); color:#e5e7eb;
+  font-family:system-ui,Arial,sans-serif;
 }
 header{
-  padding:20px;
-  background:#1f2937;
+  padding:18px 22px; border-bottom:1px solid var(--line);
 }
-button{
-  padding:15px 20px;
-  margin:10px;
-  font-size:16px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
+.app{
+  display:grid; grid-template-columns:220px 1fr; min-height:calc(100vh - 64px);
 }
-.primary{background:#6366f1;color:white;}
-.secondary{background:#22d3ee;color:black;}
-#box{
-  margin:20px;
-  padding:20px;
-  background:#0f172a;
-  border-radius:12px;
+aside{
+  border-right:1px solid var(--line); padding:14px;
+}
+aside button{
+  width:100%; padding:12px; margin-bottom:10px;
+  border-radius:12px; border:1px solid var(--line);
+  background:#0f172a; color:#e5e7eb; cursor:pointer;
+}
+aside button:hover{background:#162043}
+main{padding:18px}
+.card{
+  background:var(--card); border:1px solid var(--line);
+  border-radius:16px; padding:16px; margin-bottom:16px;
+}
+.actions button{
+  padding:14px 18px; border-radius:14px; border:none;
+  cursor:pointer; font-weight:700; margin-right:10px;
+}
+.primary{background:var(--grad); color:#020617}
+.secondary{background:#0f172a; color:#e5e7eb; border:1px solid var(--line)}
+#log{margin-top:12px; opacity:.9}
+@media(max-width:900px){
+  .app{grid-template-columns:1fr}
+  aside{display:flex; gap:10px; overflow:auto}
+  aside button{flex:1}
 }
 </style>
 </head>
-
 <body>
 
 <header>
-  <h1>TEST PANEL</h1>
+  <strong>Premium Panel</strong>
 </header>
 
-<button class="primary" onclick="alert('BUTONA BASILDI ✅')">
-  Bana Bas
-</button>
+<div class="app">
+  <aside>
+    <button onclick="nav('Dashboard')">Dashboard</button>
+    <button onclick="nav('Mail')">Mail</button>
+    <button onclick="nav('Features')">Features</button>
+    <button onclick="nav('Settings')">Settings</button>
+  </aside>
 
-<button class="secondary" onclick="document.getElementById('box').innerText='ÇALIŞIYOR ✅'">
-  Yazıyı Değiştir
-</button>
-
-<div id="box">
-  Henüz bir şey olmadı
+  <main>
+    <div class="card">
+      <h1 id="title">Dashboard</h1>
+      <p>Güvenli premium iskelet aktif.</p>
+      <div class="actions">
+        <button class="primary" onclick="act('Başlatıldı')">Başlat</button>
+        <button class="secondary" onclick="act('Ayarlar açıldı')">Ayarlar</button>
+      </div>
+      <div id="log">Bir şeye bas.</div>
+    </div>
+  </main>
 </div>
+
+<script>
+function act(t){ document.getElementById('log').innerText='✔ '+t }
+function nav(n){
+  document.getElementById('title').innerText=n;
+  document.getElementById('log').innerText='Sayfa: '+n;
+}
+</script>
 
 </body>
 </html>
